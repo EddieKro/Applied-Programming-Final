@@ -10,7 +10,7 @@ provider:
   name: aws
   runtime: python3.6
   region: eu-west-1
-  stackName: ${self:service}-cfn-lambda
+  stackName: ${self:service}-lambda
   deploymentBucket:
     serverSideEncryption: AES256
   deploymentPrefix: serverless
@@ -26,7 +26,13 @@ functions:
     memorySize: 128
     timeout: 10
     environment:
-      TOKEN: ${ssm:/aws/bot/telegram/token}
+      TOKEN: ${ssm:/bot/telegram/token}
+    events:
+      - http:
+          path: ${self:service}
+          method: post
+          cors: false
+          private: false
 
 package:
   individually: true

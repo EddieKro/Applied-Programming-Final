@@ -16,6 +16,15 @@ provider:
   deploymentPrefix: serverless
   versionFunctions: false
   endpointType: regional
+  iamRoleStatements:
+    - Effect: 'Allow'
+      Action:
+        - 's3:*'
+      Resource: '*'
+    - Effect: 'Allow'
+      Action:
+        - 'logs:*'
+      Resource: '*'
 
 functions:
   telegaBot:
@@ -34,7 +43,16 @@ functions:
           cors: false
           private: false
 
+
 package:
   individually: true
   include: lambda.py
-  exclude: [ "./node_modules/**","./.serverless/**" ]
+  exclude: [ "./**" ]
+
+
+resources:
+  Resources:
+    ImagesBucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: ${self:service}-generaltomato

@@ -1,17 +1,26 @@
 import json
 import os
+
 from telegram.ext import Dispatcher
 from telegram.ext import MessageHandler, Filters
-from telegram import Update, Bot
-
+from telegram import Update, Bot, Document
+import boto3
 
 def echo(update, context):
-    context.bot.send_message(chat_id=update.effective_chat.id, text=update.message.text)
+    print(update)
+    print(context)
+    print(update.message.document.file_id)
+    doc = Document(file_id=update.message.document.file_id, bot=bot)
+    bytes = doc.get_file().download_as_bytearray()
+    print(bytes)
+    context.bot.send_message(chat_id=update.effective_chat.id, text='cool, u have sent me a dcm')
 
 bot = Bot(token=os.getenv('TOKEN'))
 dispatcher = Dispatcher(bot, None, use_context=True)
-echo_handler = MessageHandler(Filters.text, echo)
+echo_handler = MessageHandler(Filters.document.mime_type('application/dicom'), echo)
 dispatcher.add_handler(echo_handler)
+
+client = boto3.client('s3')
 
 def handler(event, context):
     dispatcher.process_update(

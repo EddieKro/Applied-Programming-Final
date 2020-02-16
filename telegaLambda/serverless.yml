@@ -36,6 +36,7 @@ functions:
     timeout: 10
     environment:
       TOKEN: ${ssm:/bot/telegram/token}
+      DICOM_Bucket: { Ref: ImagesBucket}
     events:
       - http:
           path: ${self:service}

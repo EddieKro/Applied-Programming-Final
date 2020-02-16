@@ -11,8 +11,8 @@ def echo(update, context):
     print(context)
     print(update.message.document.file_id)
     doc = Document(file_id=update.message.document.file_id, bot=bot)
-    bytes = doc.get_file().download_as_bytearray()
-    print(bytes)
+    ba = bytes(doc.get_file().download_as_bytearray())
+    response = client.put_object(Body=ba, Bucket=os.getenv('DICOM_Bucket'), Key=f'{update._effective_user.id}/{update.message.document.file_name}')
     context.bot.send_message(chat_id=update.effective_chat.id, text='cool, u have sent me a dcm')
 
 bot = Bot(token=os.getenv('TOKEN'))

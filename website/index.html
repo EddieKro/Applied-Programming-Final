@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>HealthUP</title>
+    <link rel="shortcut icon" type="image/x-icon" href="img/other/icon.ico" />
+    <link rel="stylesheet" type="text/css" href="css/main.css" media="screen"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/animate.css">
+    <script src="js/wow.js"></script>
+    <script>
+        new WOW().init();
+    </script>
+</head>
+<body>
+    <div class="cont">
+        <div class="topbar">
+            <div id="particles-js"></div>
+            <img src="img/other/logo_health.png" class="logo">
+        </div>
+        <ul class="menu bar">
+        <li><a href="index.html" class="link active">Home</a></li>
+        <li><a href="about.html" class="link">About us</a></li>
+    </ul>
+    <div class="pictures">
+        <div class="inside">
+            <div class="mode wow zoomIn">
+                <div class="text"><i>Pneumonia detection</i></div>
+                <img class="semitrans" src="img/other/cardiograph.jpg">
+            </div>
+            <div class="mode wow zoomIn" data-wow-delay="0.5s">
+                <a href="https://t.me/HealthHelperBot">
+                    <div class="text"><i>Get bot here!</i></div>
+                    <img class="semitrans" src="img/other/telegram.png">
+                </a>
+            </div>
+            <div class="mode wow zoomIn" data-wow-delay="1s">
+                <div class="text"><i>Check your health</i></div>
+                <img class="semitrans" src="img/other/health-check.jpg">
+            </div>
+        </div>
+    </div>
+
+    <div class="workbox">
+        <div class="textBox wow fadeIn" data-wow-duration="2.5s" data-wow-delay="0.3s">
+            <span class="bracket">{</span>
+            <div class="work">
+                Our engineers work every day to make<br>
+                Your experience one of a kind!
+            </div>
+            <span class="bracket">}</span>
+        </div>
+        <div class="screw">
+            <img class="screw" src="img/other/mech.png">
+        </div>
+    </div>
+    <div class="stats">
+        <div class="wow fadeInLeft statstextbox">
+            <div class="bignumber">99.5%</div>
+            <p>Server uptime</p>
+        </div>
+        <div class="wow fadeInLeftBig statstextbox" data-wow-duration="0.75s">
+            <div class="bignumber">90%</div>
+            <p>Machine Learning accuracy</p>
+        </div>
+        <div class="wow fadeInLeftBig statstextbox" data-wow-duration="1s">
+            <div class="bignumber" style="margin-left:4vw">3</div>
+            <p>Students and a deadline</p>
+        </div>
+        <div class="wow fadeInLeftBig statstextbox" data-wow-duration="1.5s">
+            <div class="bignumber">MANY</div>
+            <p style="margin-left:3vw;">Daily visitors</p>
+        </div>
+    </div>
+    <div class="stats" style="background-color: lightgray">
+        <form style="margin-left:25%">
+          <div class="form-group" style="width:20vw">
+            <label for="exampleInputEmail1">Email address</label>
+            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+          </div>
+          <button type="submit"style="margin-left:30%" class="btn btn-primary" onclick="return foo();">Submit</button>
+        </form>
+    </div>
+    <div class="pictures information">
+        <div class="infotext">
+            <h class="wow fadeIn hh" data-wow-duration="1.25s"><b>Pneumonia is 3rd most common death cause</b></h>
+            <br>
+            Pneumonia is an infection that inflames the air sacs in one or both lungs. The air sacs may fill with fluid or pus (purulent material), causing cough with phlegm or pus, fever, chills, and difficulty breathing. A variety of organisms, including bacteria, viruses and fungi, can cause pneumonia.
+            <br>
+            <br>
+            Pneumonia can range in seriousness from mild to life-threatening. It is most serious for infants and young children, people older than age 65, and people with health problems or weakened immune systems.
+            <br>
+            <br>
+            <br>
+        </div>
+        <img src="img/other/doctor-pneumonia.jpeg" class="wow fadeInRight infoimg" data-wow-duration="1s">
+    </div>
+    <div class="pictures information fish">
+        <div class="infotext">
+            <h class="wow fadeIn hh" data-wow-duration="1.25s"><b>AI in healthcare</b></h>
+            <br>
+            With the rise of AI technologies, it can be applied to any field imaginable. This is why we've decided to create a bot, with which you can easily get a second opinion after your doctor or get a sense of whether you need any medical attention.
+            <br>
+            We want to make it as accessible as possible to make YOUR life easier and healthier. It is based off of a telegram bot which has the powers of state of the art Machine Learning algorithms which power up your health to new limits pumping it up all the way to 100.
+            <br>
+            <br>
+            <br>
+            <br>
+        </div>
+        <img src="img/other/ai-health.png" class="wow fadeInRight infoimg" data-wow-duration="1s">
+    </div>
+    <div class="footer">
+        <img src="img/other/logo_health.png" class="logoLower">
+        <span class="license">© 2019 HealthUP Technologies</span>
+    </div>
+</div>
+<script src="js/particles.js"></script>
+<script src="js/app.js">></script>
+<script type="text/javascript">
+    function foo(){
+        console.log($("input").val())
+        $.post("http://335.204.168.11:80/add_mail",{'mail':$("input").val()});
+        $("input").val('')
+    };
+</script>
+</body>

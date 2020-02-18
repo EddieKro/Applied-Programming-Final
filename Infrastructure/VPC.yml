@@ -1,0 +1,181 @@
+Resources:
+  MainVPC:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: 10.0.0.0/16
+  PublicSubnet1:
+    Type: AWS::EC2::Subnet
+    Properties:
+      CidrBlock: 10.0.1.0/24
+      VpcId: !Ref MainVPC
+      Tags:
+        - Key: Name
+          Value: PublicSubnet1
+  PublicSubnet2:
+    Type: AWS::EC2::Subnet
+    Properties:
+      CidrBlock: 10.0.2.0/24
+      VpcId: !Ref MainVPC
+      Tags:
+        - Key: Name
+          Value: PublicSubnet2
+  PublicSubnet3:
+    Type: AWS::EC2::Subnet
+    Properties:
+      CidrBlock: 10.0.3.0/24
+      VpcId: !Ref MainVPC
+      Tags:
+        - Key: Name
+          Value: PublicSubnet3
+  PrivateSubnet1:
+    Type: AWS::EC2::Subnet
+    Properties:
+      MapPublicIpOnLaunch: False
+      CidrBlock: 10.0.4.0/24
+      VpcId: !Ref MainVPC
+      Tags:
+        - Key: Name
+          Value: PrivateSubnet1
+  PrivateSubnet2:
+    Type: AWS::EC2::Subnet
+    Properties:
+      MapPublicIpOnLaunch: False
+      CidrBlock: 10.0.5.0/24
+      VpcId: !Ref MainVPC
+      Tags:
+        - Key: Name
+          Value: PrivateSubnet2
+  PrivateSubnet3:
+    Type: AWS::EC2::Subnet
+    Properties:
+      MapPublicIpOnLaunch: False
+      CidrBlock: 10.0.6.0/24
+      VpcId: !Ref MainVPC
+      Tags:
+        - Key: Name
+          Value: PrivateSubnet3
+  # Route Tables
+  PublicRouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref MainVPC
+      Tags:
+        - Key: Name
+          Value: PublicRouteTable
+  PrivateRouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref MainVPC
+      Tags:
+        - Key: Name
+          Value: PrivateRouteTable
+  # VPC Gateways
+  PublicIGW:
+    Type: AWS::EC2::InternetGateway
+    Properties:
+      Tags:
+        - Key: Name
+          Value: PublicIGW
+  IGWAttachment:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      InternetGatewayId: !Ref PublicIGW
+      VpcId: !Ref MainVPC
+  NatGWElasticIP:
+    Type: AWS::EC2::EIP
+    DependsOn: IGWAttachment
+    Properties:
+      Domain: vpc
+      Tags:
+        - Key: Name
+          Value: NatGWElasticIP
+  PrivateNatGW:
+    Type: AWS::EC2::NatGateway
+    Properties:
+      SubnetId: !Ref PublicSubnet1
+      AllocationId: !GetAtt NatGWElasticIP.AllocationId
+      Tags:
+        - Key: Name
+          Value: PrivateNatGW
+  # Private Route
+  PrivateSubnetRoute:
+    Type: AWS::EC2::Route
+    Properties:
+      DestinationCidrBlock: 0.0.0.0/0
+      NatGatewayId: !Ref PrivateNatGW
+      RouteTableId: !Ref PrivateRouteTable
+  PrivateSubnetRouteAssociation1:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId: !Ref PrivateRouteTable
+      SubnetId: !Ref PrivateSubnet1
+  PrivateSubnetRouteAssociation2:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId: !Ref PrivateRouteTable
+      SubnetId: !Ref PrivateSubnet2
+  PrivateSubnetRouteAssociation3:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId: !Ref PrivateRouteTable
+      SubnetId: !Ref PrivateSubnet3
+  # Public Route
+  PublicSubnetRoute:
+    Type: AWS::EC2::Route
+    Properties:
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId: !Ref PublicIGW
+      RouteTableId: !Ref PublicRouteTable
+  PublicSubnetRouteAssociation1:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId: !Ref PublicRouteTable
+      SubnetId: !Ref PublicSubnet1
+  PublicSubnetRouteAssociation2:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId: !Ref PublicRouteTable
+      SubnetId: !Ref PublicSubnet2
+  PublicSubnetRouteAssociation3:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId: !Ref PublicRouteTable
+      SubnetId: !Ref PublicSubnet3
+  # Parameters
+  PublicSubnet1Parameter:
+    Type: AWS::SSM::Parameter
+    Properties:
+      Type: String
+      Name: /VPC/PublicSubnet1
+      Value: !Ref PublicSubnet1
+  PublicSubnet2Parameter:
+    Type: AWS::SSM::Parameter
+    Properties:
+      Type: String
+      Name: /VPC/PublicSubnet2
+      Value: !Ref PublicSubnet2
+  PublicSubnet3Parameter:
+    Type: AWS::SSM::Parameter
+    Properties:
+      Type: String
+      Name: /VPC/PublicSubnet3
+      Value: !Ref PublicSubnet3
+
+  PrivateSubnet1Parameter:
+    Type: AWS::SSM::Parameter
+    Properties:
+      Type: String
+      Name: /VPC/PrivateSubnet1
+      Value: !Ref PrivateSubnet1
+  PrivateSubnet2Parameter:
+    Type: AWS::SSM::Parameter
+    Properties:
+      Type: String
+      Name: /VPC/PrivateSubnet2
+      Value: !Ref PrivateSubnet2
+  PrivateSubnet3Parameter:
+    Type: AWS::SSM::Parameter
+    Properties:
+      Type: String
+      Name: /VPC/PrivateSubnet3
+      Value: !Ref PrivateSubnet3

@@ -1,0 +1,50 @@
+service: telegram-resp-bot
+
+custom:
+  stage: test
+
+plugins:
+  - serverless-python-requirements
+
+provider:
+  name: aws
+  runtime: python3.6
+  region: eu-west-1
+  stackName: ${self:service}-lambda
+  deploymentBucket:
+    serverSideEncryption: AES256
+  deploymentPrefix: serverless
+  versionFunctions: false
+  endpointType: regional
+  iamRoleStatements:
+    - Effect: 'Allow'
+      Action:
+        - 's3:*'
+      Resource: '*'
+    - Effect: 'Allow'
+      Action:
+        - 'logs:*'
+      Resource: '*'
+
+functions:
+  telegaBot:
+    package:
+      include: ['lambda.py']
+    handler: lambda.handler
+    name: ${self:custom.stage}-${self:service}
+    memorySize: 128
+    timeout: 10
+    environment:
+      TOKEN: ${ssm:/bot/telegram/token}
+    events:
+      - http:
+          path: ${self:service}
+          method: post
+          cors: false
+          private: false
+
+
+package:
+  individually: true
+  include: lambda.py
+  exclude: [ "./**" ]

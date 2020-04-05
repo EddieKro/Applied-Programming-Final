@@ -36,7 +36,6 @@ functions:
     timeout: 10
     environment:
       TOKEN: ${ssm:/bot/telegram/token}
-      DICOM_Bucket: { Ref: ImagesBucket}
     events:
       - http:
           path: ${self:service}
@@ -49,15 +48,3 @@ package:
   individually: true
   include: lambda.py
   exclude: [ "./**" ]
-
-
-resources:
-  Resources:
-    ImagesBucket:
-      Type: AWS::S3::Bucket
-      Properties:
-        BucketName: ${self:service}-generaltomato
-        BucketEncryption:
-          ServerSideEncryptionConfiguration:
-            - ServerSideEncryptionByDefault:
-                SSEAlgorithm: AES256

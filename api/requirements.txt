@@ -4,6 +4,7 @@ Keras==2.3.1
 scikit-learn==0.21.2
 requests==2.22.0
 urllib3==1.25.6
-numpy==1.18.0 
+numpy==1.18.0
 Pillow==6.2.1
 opencv-python==4.1.2.30
+matplotlib

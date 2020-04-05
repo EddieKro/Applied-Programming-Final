@@ -1,0 +1,37 @@
+Parameters:
+  PrivateSubnet1:
+    Type: AWS::SSM::Parameter::Value<String>
+    Default: /VPC/PrivateSubnet1
+  PrivateSubnet2:
+    Type: AWS::SSM::Parameter::Value<String>
+    Default: /VPC/PrivateSubnet2
+  PrivateSubnet3:
+    Type: AWS::SSM::Parameter::Value<String>
+    Default: /VPC/PrivateSubnet3
+  VPC:
+    Type: AWS::SSM::Parameter::Value<String>
+    Default: /VPC/Id
+Resources:
+  ALB:
+    Type: AWS::ElasticLoadBalancingV2::LoadBalancer
+    Properties:
+      Name: 'main-lb'
+      Scheme: internal
+      Subnets:
+        - !Ref PrivateSubnet1
+        - !Ref PrivateSubnet2
+        - !Ref PrivateSubnet3
+      SecurityGroups:
+        - !Ref ALBSecurityGroup
+      Type: application
+  ALBSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: 'alb sg'
+      GroupName: 'ALB Sec Group'
+      SecurityGroupIngress:
+        - CidrIp: 0.0.0.0/0
+          FromPort: 443
+          IpProtocol: 'tcp'
+          ToPort: 443
+      VpcId: !Ref VPC

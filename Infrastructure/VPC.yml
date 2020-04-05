@@ -30,6 +30,7 @@ Resources:
   PrivateSubnet1:
     Type: AWS::EC2::Subnet
     Properties:
+      AvailabilityZone: eu-west-1a
       MapPublicIpOnLaunch: False
       CidrBlock: 10.0.4.0/24
       VpcId: !Ref MainVPC
@@ -40,6 +41,7 @@ Resources:
     Type: AWS::EC2::Subnet
     Properties:
       MapPublicIpOnLaunch: False
+      AvailabilityZone: eu-west-1b
       CidrBlock: 10.0.5.0/24
       VpcId: !Ref MainVPC
       Tags:
@@ -48,6 +50,7 @@ Resources:
   PrivateSubnet3:
     Type: AWS::EC2::Subnet
     Properties:
+      AvailabilityZone: eu-west-1c
       MapPublicIpOnLaunch: False
       CidrBlock: 10.0.6.0/24
       VpcId: !Ref MainVPC
@@ -142,6 +145,13 @@ Resources:
       RouteTableId: !Ref PublicRouteTable
       SubnetId: !Ref PublicSubnet3
   # Parameters
+  VPCParam:
+    Type: AWS::SSM::Parameter
+    Properties:
+      Type: String
+      Name: /VPC/Id
+      Value: !Ref MainVPC
+
   PublicSubnet1Parameter:
     Type: AWS::SSM::Parameter
     Properties:

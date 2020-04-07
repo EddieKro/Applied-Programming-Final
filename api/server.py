@@ -19,10 +19,10 @@ def syms_covid_prediction():
 	inputs = flask.request.get_json(force=True)
 	preds = symptoms_model.predict(inputs)
     
-    if preds == 0:
-        msg = f" probably don't have COVID-19 right now. Be careful, stay home, everything will be fine!"
-    else:
-        msg = f" should contact your doctor to get yourself tested. Please, don't panic and follow official instructions"
+	if preds == 0:
+		msg = f" probably don't have COVID-19 right now. Be careful, stay home, everything will be fine!"
+	else:
+		msg = f" should contact your doctor to get yourself tested. Please, don't panic and follow official instructions"
     
 	message = f"Looks like your symptoms are{'n`t' if preds==0 else ''} severe. You" + msg
 	requests.post(os.getenv('Message_resp_url'), json={"message": message, "chat_id": inputs["chat_id"]})

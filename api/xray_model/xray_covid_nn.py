@@ -25,8 +25,8 @@ class NN_model:
     
     def image_preprocessing(self, img):
         img = np.array(img, dtype=np.uint8)
-        img = cv2.cvtColor(cv2.UMat(img), cv2.COLOR_BGR2RGB)
-        img = cv2.resize(img, (224, 224))
+        img = cv2.cvtColor(cv2.UMat(img), cv2.COLOR_GRAY2RGB)
+        img = cv2.resize(img, (224, 224)).get()
         img = img / 255.0
         img = np.array(img)
         img = np.expand_dims(img, axis=0)
@@ -35,7 +35,7 @@ class NN_model:
     def predict(self, image):
         sample = self.image_preprocessing(image)
         model = self.init_model()
-        model.load_weights('./covid19.model')
+        model.load_weights('./xray_model/covid19.model')
         preds = model.predict(sample)
         class_pred = np.argmax(preds)
         return class_pred, preds[0][class_pred]

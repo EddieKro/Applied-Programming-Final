@@ -323,6 +323,53 @@ li{
         font-size: 1.18em;
     }
 }
+@media(min-width:1820px){
+    .infoimg{
+        margin-right: 0px;
+    }
+    .inside{
+        padding-top: 2vw!important;
+    }
+    .mode{
+        margin-left: 330px;
+        width: 120px;
+    }
+    .logo{
+        margin-top: 20px;
+        width:34vw;
+    }
+    .semitrans{
+        height: 17vw;
+    }
+    .screw{
+        margin-top: 2vw;
+    }
+    .textBox{
+        padding-top: 4vw;
+        margin-left: 39vw;
+    }
+    .work{
+        margin-top: 4.5vw;
+    }
+    .stats{
+        padding-left: 29vw;
+    }
+    .form-group{
+        margin-left: -130px;
+    }
+    .infotext{
+        width: 1200px;
+    }
+    .pictures.information {
+        padding-top: 4vw;
+        padding-left: 120px;
+        font-size: 1.3em;
+    }
+    .pictures.information.fish {
+        padding-top: 4vw;
+    }
+
+}
 @media(max-width:1040px){
     .infoimg{
         margin-right: 0px;

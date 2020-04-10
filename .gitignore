@@ -4,5 +4,6 @@ bot_test.py
 tmp
 .DS_Store
 desktop.ini
-**/__pychache__
+**/__pycache__
 .ipynb_checkpoints
+__pycache__

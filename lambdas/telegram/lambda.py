@@ -192,7 +192,7 @@ dispatcher.add_handler(CommandHandler('start',start))
 dispatcher.add_handler(CommandHandler('xray',echo))
 dispatcher.add_handler(CommandHandler('help',_help))
 #keyboard handler
-dispatcher.add_handler(CallbackQueryHandler(callback = keyboard_callback_handler)
+dispatcher.add_handler(CallbackQueryHandler(callback = keyboard_callback_handler))
 
 #conversational handler        
 conv_handler = ConversationHandler(

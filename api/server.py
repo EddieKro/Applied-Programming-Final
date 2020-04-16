@@ -18,7 +18,6 @@ def health():
 def syms_covid_prediction():
     data = flask.request.get_json(force=True)
     inputs = np.array(data['symptoms']).reshape(1,-1)
-	
     preds = symptoms_model.predict(inputs)[0]
     if preds == 0:
         msg = f" probably don't have COVID-19 right now. Be careful, stay home, everything will be fine!"
@@ -26,7 +25,9 @@ def syms_covid_prediction():
         msg = f" should contact your doctor to get yourself tested. Please, don't panic and follow official instructions"
     
     message = f"Looks like your symptoms are{'n`t' if preds==0 else ''} severe. You" + msg
-    requests.post(os.getenv('Message_resp_url'), json={"message": message, "chat_id": data["chat_id"]})
+    data = {"message": message, "chat_id": data["chat_id"], "pred":int(preds)}
+    requests.post(os.getenv('Message_resp_url'), json=flask.jsonify(data))
+    return {'status': 'ok'}
 
 
 # takes image as url.

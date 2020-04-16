@@ -22,7 +22,7 @@ GIFS ={'COVID':[
 def handler(event, context):
     i = np.random.randint(0,3)
 
-    body = event['body']
+    body = json.loads(event['body'])
     bot.send_message(chat_id=body['chat_id'], text=body['message'])
 
     pred=round(body['preds'])

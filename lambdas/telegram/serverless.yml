@@ -36,7 +36,7 @@ functions:
     timeout: 10
     environment:
       TOKEN: ${ssm:/bot/telegram/token}
-      ML_URL: http://internal-main-lb-1498593331.eu-west-1.elb.amazonaws.com
+      ML_URL: http://http://internal-main-lb-1279339555.eu-west-1.elb.amazonaws.com
     events:
       - http:
           path: ${self:service}

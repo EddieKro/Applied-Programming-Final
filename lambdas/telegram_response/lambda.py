@@ -23,15 +23,10 @@ def handler(event, context):
     i = np.random.randint(0,3)
 
     body = event['body']
-<<<<<<< HEAD
-    body = json.loads(body)
     bot.send_message(chat_id=body['chat_id'], text=body['message'])
-=======
-    bot.send_message(chat_id=body['chat_id'], text=body['text'])
 
     pred=round(body['preds'])
 
     key = 'COVID' if pred==1 else 'NON_COVID'
     bot.send_animation(chat_id=body['chat_id'], animation=GIFS[key][i])
->>>>>>> 96cd8f09e26ef8e1903169ca3e73a2f48c187faf
     return {"statusCode": 200}

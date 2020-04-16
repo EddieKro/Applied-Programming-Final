@@ -25,7 +25,7 @@ class NN_model:
     
     def image_preprocessing(self, img):
         img = np.array(img, dtype=np.uint8)
-        img = cv2.cvtColor(img, cv2.COLOR_BGR)
+        img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
         img = cv2.resize(img, (224, 224))
         img = img / 255.0
         img = np.array(img)

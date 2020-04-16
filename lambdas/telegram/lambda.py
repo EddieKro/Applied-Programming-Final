@@ -123,8 +123,9 @@ def process_age(age):
 
 def process_age_group(age):
     d = {'0-9':0, '10-19':1,'20-24':2,'25-59':3}
-    if age not in d.keys():
-        return 4
+    if age in d.keys():
+        return d[age]
+    return 4
     
 def process_contact(contact):
     d = {'yes':2,'no':1}

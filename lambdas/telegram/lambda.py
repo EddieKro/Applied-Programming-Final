@@ -107,7 +107,7 @@ def conctact_handler(update,context):
     chat_id = update.effective_chat.id
     request = {'symptoms': symptoms_list.tolist(), 'chat_id':chat_id}
     update.message.reply_text('Thank you',reply_markup=ReplyKeyboardRemove())
-	r = requests.post( url = symptoms_ml_url, json = request)
+    r = requests.post( url = symptoms_ml_url, json = request)
     return ConversationHandler.END
     
 def process_age(age):
@@ -123,7 +123,7 @@ def process_age(age):
 
 def process_age_group(age):
     d = {'0-9':0, '10-19':1,'20-24':2,'25-59':3}
-    if age not in d.keys()
+    if age not in d.keys():
         return 4
     
 def process_contact(contact):

@@ -25,7 +25,7 @@ def syms_covid_prediction():
         msg = f" should contact your doctor to get yourself tested. Please, don't panic and follow official instructions"
     
     message = f"Looks like your symptoms are{'n`t' if preds==0 else ''} severe. You" + msg
-    data = {"message": message, "chat_id": data["chat_id"], "pred":int(preds)}
+    data = {"message": message, "chat_id": data["chat_id"], "preds":int(preds)}
     requests.post(os.getenv('Message_resp_url'), json=flask.jsonify(data))
     return {'status': 'ok'}
 
@@ -36,7 +36,9 @@ def image_covid_prediction():
     inputs = flask.request.get_json(force=True)
     preds = nn_model.predict(inputs["image"])
     message = f"You have a {preds[1]*100:.2f}% chance of {'not ' if preds[0]==0 else ''}having COVID-19."
-    requests.post(os.getenv('Message_resp_url'), json={"message": message, "chat_id": inputs["chat_id"],"pred":preds})
+    print(preds)
+    print(type(preds))
+    requests.post(os.getenv('Message_resp_url'), json={"message": message, "chat_id": inputs["chat_id"],"preds":1-float(preds[1])})
     return {'status': 'ok'}
 
 if __name__ == '__main__':

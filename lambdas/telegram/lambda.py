@@ -8,11 +8,10 @@ from telegram.ext import CommandHandler,MessageHandler, Filters,CallbackQueryHan
 from telegram import Update, Bot, Document
 import boto3
 import numpy as np
-ml_url = os.getenv('ML_URL')
 symptoms_ml_url = os.getenv('SYMPTOMS_ML_URL')
 
 
-#####
+#####flask request is sent @line110
 #CONVERSATIONAL HANDLER 
 
 INITIAL_INDICES = {'Symptoms':0,'Gender':11,'Age':16,'Contact':21}
@@ -70,7 +69,6 @@ def gender_handler(update,context):
     
     return AGE
 
-
         
 def age_handler(update,context):
     age,valid,txt = update.message.text,False,str()
@@ -108,8 +106,8 @@ def conctact_handler(update,context):
     
     chat_id = update.effective_chat.id
     request = {'symptoms': symptoms_list.tolist(), 'chat_id':chat_id}
-#   r = requests.post( url = symptoms_ml_url, json = request)
-    update.message.reply_text('Thank you',reply_markup=ReplyKeyboardRemove())    
+    update.message.reply_text('Thank you',reply_markup=ReplyKeyboardRemove())
+	r = requests.post( url = symptoms_ml_url, json = request)
     return ConversationHandler.END
     
 def process_age(age):
@@ -172,7 +170,6 @@ def cancel_handler(update,context):
     print('cancel')
     update.message.reply_text('Aborting. To restart, press /symptoms', reply_markup=ReplyKeyboardRemove())
     return ConversationHandler.END
-#####
 
 
 
@@ -182,29 +179,12 @@ def start(update, context):
     
 def _help(update,context):
     help_text = "to start xray check simply upload your .jpeg image or select /xray\nto check your symptoms, use /symptoms"
-
     update.message.reply_text(help_text,reply_markup=ReplyKeyboardRemove())
     
-
-def echo(update, context):
-    print(update)
-    print(context)
-    print(update.message.document.file_id)
-    doc = Document(file_id=update.message.document.file_id, bot=bot)
-    image_b = np.frombuffer(doc.get_file().download_as_bytearray(),dtype=np.uint8).tolist()
-    chat_id = update.effective_chat.id
-    request = {'image': image_b, 'chat_id': chat_id}
-    r = requests.post( url = ml_url, json = request)
-    # response = client.put_object(Body=ba, Bucket=os.getenv('DICOM_Bucket'), Key=f'{update._effective_user.id}/{update.message.document.file_name}')
-    # context.bot.send_message(chat_id=update.effective_chat.id, text='cool, u have sent me a dcm')
 
     
 bot = Bot(token=os.getenv('TOKEN'))
 dispatcher = Dispatcher(bot, None, use_context=True)
-
-#Bodya-handler
-echo_handler = MessageHandler(Filters.document.mime_type('application/dicom'), echo)
-dispatcher.add_handler(echo_handler)
 
 
 #command handlers
@@ -230,9 +210,7 @@ conv_handler = ConversationHandler(
     fallbacks = [CommandHandler('cancel',cancel_handler),])    
 dispatcher.add_handler(conv_handler) 
 
-                       
-
-
+          
 def handler(event, context):
     dispatcher.process_update(
         Update.de_json(json.loads(event['body']), bot)

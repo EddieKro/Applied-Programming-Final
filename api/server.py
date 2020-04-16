@@ -29,7 +29,7 @@ def syms_covid_prediction():
     message = f"Looks like your symptoms are{'n`t' if preds==0 else ''} severe. You" + msg
     data = {"message": message, "chat_id": data["chat_id"], "pred":int(preds)}
     requests.post(os.getenv('Message_resp_url'), json=flask.jsonify(data))
-    return
+    return {'status': 'ok'}
     
     
 if __name__ == '__main__':

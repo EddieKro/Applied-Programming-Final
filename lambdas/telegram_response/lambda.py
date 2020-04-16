@@ -11,5 +11,7 @@ bot = Bot(token=os.getenv('TOKEN'))
 
 def handler(event, context):
     body = event['body']
+	
+
     bot.send_message(chat_id=body['chat_id'], text=body['text'])
     return {"statusCode": 200}
